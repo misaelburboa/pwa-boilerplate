@@ -1,6 +1,8 @@
 import React, { Suspense } from 'react';
-//import { Redirect, Route, Switch } from 'react-router-dom';
-import { Container } from 'reactstrap';
+import { Route, Switch } from 'react-router-dom';
+import routes from '../routes';
+import Navbar from '../components/Navbar';
+import NotFound from './NotFound';
 
 class DefaultLayout extends React.Component {
     loading = () => <div>Loading...</div>
@@ -10,11 +12,25 @@ class DefaultLayout extends React.Component {
             <div className="app">
                 <div className="app-body">
                     <main>
-                        <Container fluid>
-                            <Suspense fallback={this.loading()}>
-                                This is a test
-                            </Suspense>
-                        </Container>
+                        <Suspense fallback={this.loading()}>
+                            <Navbar />
+                            <Switch>
+                                {routes.map((route, idx) => {
+                                    return route.component ? (
+                                        <Route
+                                            key={idx}
+                                            path={route.path}
+                                            exact={route.exact}
+                                            name={route.name}
+                                            render={props => (
+                                                <route.component {...props} />
+                                            )} />
+                                    ) : (null);
+                                })}
+                                {/*<Redirect from="/" to="/home" />*/}
+                                <Route component={NotFound} />
+                            </Switch>
+                        </Suspense>
                     </main>
                 </div>
             </div>
