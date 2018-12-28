@@ -7,6 +7,9 @@ import NotFound from './NotFound';
 class DefaultLayout extends React.Component {
     loading = () => <div>Loading...</div>
 
+    componentDidMount() {
+        console.log("DID MOUNT EXECUTED!");
+    }
     render() {
         return (
             <div className="app">
@@ -27,7 +30,7 @@ class DefaultLayout extends React.Component {
                                             )} />
                                     ) : (null);
                                 })}
-                                {/*<Redirect from="/" to="/home" />*/}
+
                                 <Route component={NotFound} />
                             </Switch>
                         </Suspense>
